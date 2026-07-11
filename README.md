@@ -1,5 +1,25 @@
 # amici
 
+## Status: paused (2026-07-10)
+
+Deprioritized after the on-chain setup was complete but before the pipeline ran end-to-end. Building a bespoke ENSIP preview site turned out to be low-leverage relative to the actual need — a single static HTML explainer, shared directly, did the job. Wrapping up here rather than continuing to harden the automation.
+
+**What's real and not wasted** — all verified live on-chain, not just configured:
+- Safe `0xa824273494c7371C2601F76C52219dE9Ac7CE90D` (1-of-1, owner `0x703ae03fB120eC91e9Ed6d08Ce8044E498CC789B`) exists and is the recognized operator on `amici.eth` ([tx](https://etherscan.io/tx/0x1de2b33c7111bae4b2ed360e42842f920337a796404dfa3917635c48cc81385e))
+- Zodiac Roles Modifier `0xc6f36abA15b3A7C898dA0Eb1936696E79027b71a` is deployed and enabled as a Safe module
+- Role `ENS_DEPLOYER` (`0xc86400a1...`) is assigned to signer `0x83Dc91c1CDd54D194D7Bf7F286030557Dcf2eBcc` and scoped to exactly two things: `setContenthash` on amici.eth's PublicResolver ([tx](https://etherscan.io/tx/0xb8f2d5416bbde1bf96952977a8b0ddc8163a6d30e9bc3ec3087ade3410660ba5)), and `setSubnodeRecord` on the ENS Registry ([tx](https://etherscan.io/tx/0xbe94b69d2359807ead021a21747c7db5beb20a2fe8a3ac9ab1c005e7064a3292)) — nothing else, verified via decoded event logs both times, not just tx success
+- `estmcmxci/amici` is public on GitHub with secrets/vars provisioned
+
+This is genuinely reusable infrastructure if this gets picked back up — the hard part (least-privilege Safe + Zodiac setup, verified against actual contract source rather than assumed) is done.
+
+**What's not done:**
+- **The GitHub Actions run failed** (`workflow_dispatch` run [29132569564](https://github.com/estmcmxci/amici/actions/runs/29132569564)): `omnipin/` was committed as a bare git submodule reference (mode `160000`) with no `.gitmodules` file, so `actions/checkout@v4` never fetches its actual contents — `omnipin/src/*` doesn't exist on the runner, so `scripts/lib/subname.ts`'s import of it fails immediately (`ERR_MODULE_NOT_FOUND`). Needs either a proper `git submodule add` (with `.gitmodules` and `submodules: true` on checkout) or vendoring omnipin's source directly instead of as a nested repo.
+- **No ENSIP subname was ever created on amici.eth.** `27.amici.eth` doesn't exist in the Registry — the Zodiac permissions above are live and correct but were never exercised end-to-end.
+- **Vocs' build output turned out to be SSR-only** (`dist/server/` + `dist/public/`, zero static `.html` files) — not directly IPFS-pinnable as originally assumed. Vocs supports a `renderStrategy: 'full-static'` config option that would fix this, untested. Punted in favor of just using the already-existing standalone HTML explainer instead.
+- **What actually shipped**: `~/Desktop/ensip-27-explainer.html` (a pre-existing, self-contained static page, unrelated to this pipeline) pinned to Pinata — CID `bafkreidlpcvbsrurze37lccukhugwt5q73rr5hzkt34cksghu56lwqmifq` — and shared directly in the Telegram channel. Not wired to any ENS name.
+
+---
+
 Automated Vercel-style preview deploys for ENS Improvement Proposal drafts. A scheduled GitHub Action polls open PRs on [`ensdomains/ensips`](https://github.com/ensdomains/ensips), rebuilds a `docs.ens.domains`-styled site for any changed `ensips/{n}.md`, pins it to IPFS, and points `{n}.amici.eth`'s contenthash at the new CID — then announces the live link via a step summary and [`PREVIEWS.md`](./PREVIEWS.md), and additionally as a PR comment if `AMICI_ENSIPS_TOKEN` is configured (see below — not available as of this writing).
 
 Full design: [`AMICI_PIPELINE.md`](./AMICI_PIPELINE.md). Build workflow/gotchas for the Vocs+Thorin site itself: `~/.claude/skills/ens-vocs-docs/SKILL.md`.
@@ -84,7 +104,8 @@ The full `npm run poll` requires `AMICI_SIGNER_KEY`, `AMICI_SAFE`, `AMICI_ROLES_
 - `scripts/build-ensip.ts` was run against the real, currently-open ENSIP-27 draft PR (`ensdomains/ensips#64`) and produces a correct build — confirmed by loading the output in a browser via Playwright (title, headings, tables, `EnsipHeader` metadata, ENS/Thorin styling all render; 0 console errors).
 - The vendored `omnipin` fork installs and builds cleanly with `bun` and its CLI runs (`--help`, subcommand list).
 - `amici.eth`'s actual on-chain state (unwrapped, standard PublicResolver, current Registry owner) was checked live rather than assumed — see prerequisite 4 above. The registry-read path in `scripts/lib/subname.ts` was smoke-tested directly against mainnet: `amici.eth` and `vitalik.eth` (as a control — returned Vitalik's well-known address, confirming the namehash/decode logic is correct) resolve to real owners, `27.amici.eth` correctly reads back as the zero address (not yet created). This caught a real bug in the process: `ox`'s `decodeResult` returns the bare value directly for single-output ABI functions rather than an array — `const [owner] = decodeResult(...)` was silently destructuring the first *character* of the address string instead of the address itself. Fixed.
-- **Not yet verified**: the actual pin + ENS contenthash update and the new subname-creation transaction (`omnipin deploy --safe --roles-mod-address` and `ensureSubnameExists`'s write path) — both need a real Safe owning `amici.eth`, a deployed Zodiac Roles Module with both permissions configured (prerequisites 1, 3, 5), a funded signer, and a Pinata token, none of which exist yet. `npm audit` also flagged 2 high-severity advisories in omnipin's own dependency tree (upstream's deps, not something introduced by the fork) — worth a look before relying on this for anything real.
+- The Safe, Zodiac Roles Modifier, and both scoped permissions (prerequisites 1, 2, 3, 5 below) were all completed and verified live on-chain — see the Status section at top for tx hashes and decoded event confirmation.
+- **Never run end-to-end**: the actual pin + ENS contenthash update and the new subname-creation transaction (`omnipin deploy --safe --roles-mod-address` and `ensureSubnameExists`'s write path). The one real attempt (via GitHub Actions) failed on a CI-environment bug before reaching that code — see Status section. `npm audit` also flagged 2 high-severity advisories in omnipin's own dependency tree (upstream's deps, not something introduced by the fork) — worth a look before relying on this for anything real.
 
 ## Known gaps
 

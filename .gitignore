@@ -1,0 +1,12 @@
+node_modules
+.vocs
+dist
+.DS_Store
+reference/
+
+# Generated per ENSIP by scripts/build-ensip.ts on every pipeline run —
+# not hand-authored template source, regenerated for whichever ENSIP
+# number runs next. template/src/pages/ensip/index.mdx IS static and stays tracked.
+template/vocs.config.ts
+template/src/pages/index.mdx
+template/src/pages/ensip/[0-9]*.mdx

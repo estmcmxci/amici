@@ -1,0 +1,229 @@
+/* Design tokens copied verbatim from ensdomains/docs (docs.ens.domains),
+   which in turn sources its hue ramps from ensdomains/thorin. */
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap');
+
+:root {
+  --ens-blue-active: #003685;
+  --ens-blue-dim: #056aff;
+  --ens-blue-primary: #3889ff;
+  --ens-blue-bright: #569aff;
+  --ens-blue-light: #d1e4ff;
+  --ens-blue-surface: #eef5ff;
+
+  --ens-indigo-active: #19175f;
+  --ens-indigo-dim: #342fc5;
+  --ens-indigo-primary: #5854d6;
+  --ens-indigo-bright: #7e7bdf;
+  --ens-indigo-light: #c7c5f1;
+  --ens-indigo-surface: #e3e2f8;
+
+  --ens-purple-active: #3d1353;
+  --ens-purple-dim: #8a2bba;
+  --ens-purple-primary: #a343d3;
+  --ens-purple-bright: #b86edd;
+  --ens-purple-light: #e3c6f1;
+  --ens-purple-surface: #ebd6f5;
+
+  --ens-pink-active: #440e28;
+  --ens-pink-dim: #ae2366;
+  --ens-pink-primary: #d52e7e;
+  --ens-pink-bright: #de5999;
+  --ens-pink-light: #f4cde0;
+  --ens-pink-surface: #ebd6f5;
+
+  --ens-red-active: #280a06;
+  --ens-red-dim: #992515;
+  --ens-red-primary: #c6301b;
+  --ens-red-bright: #e34631;
+  --ens-red-light: #f0c2c2;
+  --ens-red-surface: #f9e7e7;
+
+  --ens-orange-active: #492c03;
+  --ens-orange-dim: #c37609;
+  --ens-orange-primary: #f3930b;
+  --ens-orange-bright: #f6a93c;
+  --ens-orange-light: #fbe1bc;
+  --ens-orange-surface: #fdf0dd;
+
+  --ens-yellow-active: #423505;
+  --ens-yellow-dim: #b9930e;
+  --ens-yellow-primary: #e9b911;
+  --ens-yellow-bright: #f0c93c;
+  --ens-yellow-light: #ffefad;
+  --ens-yellow-surface: #fff5cd;
+
+  --ens-green-active: #072c21;
+  --ens-green-dim: #158463;
+  --ens-green-primary: #199c75;
+  --ens-green-bright: #1eb789;
+  --ens-green-light: #cbe7dc;
+  --ens-green-surface: #e7f4ef;
+
+  --ens-grey-active: #1e2122;
+  --ens-grey-dim: #595959;
+  --ens-grey-primary: #9b9ba7;
+  --ens-grey-bright: #b6b6bf;
+  --ens-grey-light: #e8e8e8;
+  --ens-grey-surface: #f6f6f6;
+
+  --ens-background: #ffffff;
+  --ens-background-secondary: var(--ens-grey-surface);
+  --ens-border: var(--ens-grey-light);
+  --ens-text: var(--ens-grey-active);
+  --ens-text-secondary: var(--ens-grey-dim);
+  --ens-text-disabled: var(--ens-grey-bright);
+}
+
+/* Vocs stores the active theme on the document's inline `color-scheme` style,
+   not a `.dark` class — target that to follow the built-in theme toggle. */
+:root[style*='color-scheme:dark'],
+:root[style*='color-scheme: dark'] {
+  --ens-blue-active: #eef5ff;
+  --ens-blue-dim: #d1e4ff;
+  --ens-blue-primary: #3889ff;
+  --ens-blue-bright: #056aff;
+  --ens-blue-light: #0c4597;
+  --ens-blue-surface: #0d2851;
+
+  --ens-indigo-active: #e3e2f8;
+  --ens-indigo-dim: #c7c5f1;
+  --ens-indigo-primary: #6b67e9;
+  --ens-indigo-bright: #342fc5;
+  --ens-indigo-light: #221e90;
+  --ens-indigo-surface: #23216d;
+
+  --ens-purple-active: #ebd6f5;
+  --ens-purple-dim: #e3c6f1;
+  --ens-purple-primary: #a343d3;
+  --ens-purple-bright: #8a2bba;
+  --ens-purple-light: #5e1683;
+  --ens-purple-surface: #42145a;
+
+  --ens-pink-active: #fae8f1;
+  --ens-pink-dim: #f4cde0;
+  --ens-pink-primary: #d52e7e;
+  --ens-pink-bright: #ae2366;
+  --ens-pink-light: #761544;
+  --ens-pink-surface: #5b1135;
+
+  --ens-red-active: #f9e7e7;
+  --ens-red-dim: #f0c2c2;
+  --ens-red-primary: #c6301b;
+  --ens-red-bright: #a72614;
+  --ens-red-light: #7f1313;
+  --ens-red-surface: #280a06;
+
+  --ens-orange-active: #fdf0dd;
+  --ens-orange-dim: #fbe1bc;
+  --ens-orange-primary: #f3930b;
+  --ens-orange-bright: #c37609;
+  --ens-orange-light: #6d4308;
+  --ens-orange-surface: #583503;
+
+  --ens-yellow-active: #fff5cd;
+  --ens-yellow-dim: #ffefad;
+  --ens-yellow-primary: #e9b911;
+  --ens-yellow-bright: #b9930e;
+  --ens-yellow-light: #5c4b0c;
+  --ens-yellow-surface: #373222;
+
+  --ens-green-active: #e7f4ef;
+  --ens-green-dim: #cbe7dc;
+  --ens-green-primary: #199c75;
+  --ens-green-bright: #158463;
+  --ens-green-light: #104a38;
+  --ens-green-surface: #153c31;
+
+  --ens-grey-active: #ffffff;
+  --ens-grey-dim: #e8e8e8;
+  --ens-grey-primary: #9b9ba7;
+  --ens-grey-bright: #5d5c62;
+  --ens-grey-light: #424347;
+  --ens-grey-surface: #141416;
+
+  --ens-background: var(--ens-grey-surface);
+  --ens-background-secondary: #1e2122;
+  --ens-border: var(--ens-grey-light);
+  --ens-text: var(--ens-grey-dim);
+  --ens-text-secondary: var(--ens-grey-primary);
+  --ens-text-disabled: var(--ens-grey-bright);
+}
+
+/* Thread the ENS/Thorin tokens above into Vocs' actual theme variables
+   (see https://vocs.dev/features/theming). */
+:root {
+  --vocs-font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --vocs-font-family-mono: 'JetBrains Mono', 'SF Mono', Consolas, monospace;
+
+  --vocs-color-accent: var(--ens-blue-primary);
+
+  --vocs-background-color-primary: var(--ens-background);
+  --vocs-background-color-surface: var(--ens-background-secondary);
+  --vocs-background-color-surfaceMuted: var(--ens-background-secondary);
+  --vocs-background-color-surfaceTint: var(--ens-grey-surface);
+
+  --vocs-text-color-primary: var(--ens-text);
+  --vocs-text-color-secondary: var(--ens-text-secondary);
+  --vocs-text-color-muted: var(--ens-text-disabled);
+  --vocs-text-color-heading: var(--ens-text);
+  --vocs-text-color-link: var(--ens-blue-primary);
+  --vocs-text-color-link-hover: var(--ens-blue-bright);
+
+  --vocs-border-color-primary: var(--ens-border);
+  --vocs-border-color-secondary: var(--ens-border);
+
+  --vocs-color-info: var(--ens-blue-primary);
+  --vocs-color-info-hover: var(--ens-blue-bright);
+  --vocs-background-color-info-tint: var(--ens-blue-surface);
+  --vocs-border-color-info-tint: var(--ens-blue-light);
+
+  --vocs-color-note: var(--ens-grey-dim);
+  --vocs-color-note-hover: var(--ens-grey-active);
+  --vocs-background-color-note-tint: var(--ens-grey-surface);
+  --vocs-border-color-note-tint: var(--ens-grey-light);
+
+  --vocs-color-tip: var(--ens-indigo-primary);
+  --vocs-color-tip-hover: var(--ens-indigo-bright);
+  --vocs-background-color-tip-tint: var(--ens-indigo-surface);
+  --vocs-border-color-tip-tint: var(--ens-indigo-light);
+
+  --vocs-color-success: var(--ens-green-primary);
+  --vocs-color-success-hover: var(--ens-green-bright);
+  --vocs-background-color-success-tint: var(--ens-green-surface);
+  --vocs-border-color-success-tint: var(--ens-green-light);
+
+  --vocs-color-warning: var(--ens-orange-primary);
+  --vocs-color-warning-hover: var(--ens-orange-bright);
+  --vocs-background-color-warning-tint: var(--ens-orange-surface);
+  --vocs-border-color-warning-tint: var(--ens-orange-light);
+
+  --vocs-color-destructive: var(--ens-red-primary);
+  --vocs-color-destructive-hover: var(--ens-red-bright);
+  --vocs-color-destructive-tint: var(--ens-red-surface);
+  --vocs-border-color-destructive-tint: var(--ens-red-light);
+}
+
+/* ENSIP metadata block (Authors / Created / Status) */
+.ensip-header {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  margin-bottom: 8px;
+}
+
+.ensip-header p {
+  margin: 0;
+  color: var(--ens-text-secondary);
+  font-size: 14px;
+}
+
+.ensip-header strong {
+  color: var(--ens-text);
+}
+
+.ensip-status {
+  text-transform: capitalize;
+  font-weight: 600;
+  color: var(--ens-orange-primary);
+}

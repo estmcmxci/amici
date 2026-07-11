@@ -1,0 +1,22 @@
+{
+  "name": "amici-ensip-template",
+  "version": "0.0.0",
+  "type": "module",
+  "private": true,
+  "scripts": {
+    "dev": "vocs dev",
+    "build": "vocs build",
+    "preview": "vocs preview"
+  },
+  "dependencies": {
+    "@theguild/remark-mermaid": "^0.3.0",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0",
+    "vocs": "^2.5.3",
+    "waku": "^1.0.0-beta.6"
+  },
+  "devDependencies": {
+    "@types/react": "^19.0.0",
+    "typescript": "^5.7.0"
+  }
+}
